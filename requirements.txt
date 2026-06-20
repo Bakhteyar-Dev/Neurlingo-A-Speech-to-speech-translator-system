@@ -8,3 +8,4 @@ soundfile>=0.12.1
 librosa>=0.10.1
 accelerate>=0.27.0
 sacremoses>=0.0.53
+ffmpeg-python>=0.2.0
