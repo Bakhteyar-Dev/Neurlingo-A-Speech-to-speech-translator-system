@@ -1,3 +1,4 @@
+```python
 import os
 import uuid
 import numpy as np
@@ -127,7 +128,7 @@ html, body,
 }
 
 [data-testid="block-container"] {
-    padding: 195px 22px 20px 22px !important;
+    padding: 260px 22px 20px 22px !important;
     max-width: 1200px !important;
 }
 
@@ -259,7 +260,7 @@ div[data-testid="column"] {
 /* MOBILE */
 @media(max-width:700px) {
     [data-testid="block-container"] {
-        padding: 245px 14px 20px 14px !important;
+        padding: 300px 14px 20px 14px !important;
     }
 
     .st-key-hero_fixed {
@@ -509,3 +510,4 @@ if translate_clicked:
 
         finally:
             os.unlink(tmp_path)
+```
