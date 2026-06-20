@@ -366,7 +366,4 @@ if translate_clicked:
 
 # ─── Footer ───────────────────────────────────────────────────────────────────
 st.markdown("""
-<div class="nl-footer">
-  Neurolingo · English → Balochi (Latin Script) · Powered by Whisper · MarianMT · MMS TTS
-</div>
 """, unsafe_allow_html=True)
