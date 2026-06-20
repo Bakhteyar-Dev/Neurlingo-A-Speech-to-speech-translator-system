@@ -18,8 +18,8 @@ from transformers import (
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 WHISPER_MODEL_ID = "openai/whisper-small"
-MARIAN_MODEL_ID  = "Bakhteyar/Balochi-Model"
-TTS_MODEL_ID     = "facebook/mms-tts-bcc-script_latin"
+MARIAN_MODEL_ID = "Bakhteyar/Balochi-Model"
+TTS_MODEL_ID = "facebook/mms-tts-bcc-script_latin"
 
 OUTPUT_DIR = "outputs"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -36,12 +36,14 @@ def load_asr():
         device=whisper_device
     )
 
+
 @st.cache_resource(show_spinner=False)
 def load_translation():
     tok = MarianTokenizer.from_pretrained(MARIAN_MODEL_ID)
     model = MarianMTModel.from_pretrained(MARIAN_MODEL_ID).to(device)
     model.eval()
     return tok, model
+
 
 @st.cache_resource(show_spinner=False)
 def load_tts():
@@ -50,10 +52,12 @@ def load_tts():
     model.eval()
     return tok, model
 
+
 # ─── Pipeline functions ────────────────────────────────────────────────────────
 def english_speech_to_text(audio_path):
     result = load_asr()(audio_path)
     return (result.get("text", "") if isinstance(result, dict) else str(result)).strip()
+
 
 def english_to_balochi(text):
     tok, model = load_translation()
@@ -70,6 +74,7 @@ def english_to_balochi(text):
         tokens = model.generate(**inputs, max_length=256, num_beams=4)
 
     return tok.batch_decode(tokens, skip_special_tokens=True)[0].strip()
+
 
 def balochi_text_to_speech(text):
     tok, model = load_tts()
@@ -91,6 +96,7 @@ def balochi_text_to_speech(text):
     scipy.io.wavfile.write(path, sr, waveform)
     return path
 
+
 # ─── Session State ────────────────────────────────────────────────────────────
 if "audio_key_id" not in st.session_state:
     st.session_state.audio_key_id = 0
@@ -98,9 +104,11 @@ if "audio_key_id" not in st.session_state:
 if "output_audio" not in st.session_state:
     st.session_state.output_audio = None
 
+
 def clear_all():
     st.session_state.audio_key_id += 1
     st.session_state.output_audio = None
+
 
 # ─── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Neurolingo", page_icon="🌐", layout="wide")
@@ -322,7 +330,7 @@ with st.container(key="hero_fixed"):
         border: 1px solid #d8edfb; flex-shrink: 0;
     }
     .main-title { font-size: 34px; font-weight: 900; color: #000; line-height: 1.05; }
-    .subtitle   { font-size: 15px; color: #000; margin-top: 5px; }
+    .subtitle { font-size: 15px; color: #000; margin-top: 5px; }
     .hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
     .chip {
         background: #0b5cad; color: #fff; font-weight: 900; font-size: 13px;
@@ -509,4 +517,3 @@ if translate_clicked:
 
         finally:
             os.unlink(tmp_path)
-```
