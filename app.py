@@ -1,4 +1,3 @@
-```python
 import os
 import uuid
 import numpy as np
